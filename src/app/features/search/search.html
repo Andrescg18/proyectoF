@@ -1,0 +1,110 @@
+<main class="search-container fade-in">
+  <div class="search-header-panel">
+    <h1>Buscador de Productos</h1>
+    <p>Encuentra exactamente lo que necesitas filtrando por palabra clave, categoría, rango de precios o calificaciones.</p>
+  </div>
+
+  <!-- Search & Filters Toolbar -->
+  <section class="filters-panel glass">
+    <!-- Row 1: Search Text -->
+    <div class="search-input-wrapper">
+      <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+      </svg>
+      <input 
+        id="search-input"
+        type="text" 
+        placeholder="Buscar por título o descripción..." 
+        [value]="searchQuery()"
+        (input)="onSearchInput($event)"
+        class="search-text-input"
+      />
+    </div>
+
+    <!-- Row 2: Selects and Sliders -->
+    <div class="filter-controls">
+      <!-- Category select -->
+      <div class="control-group">
+        <label for="category-select">Categoría</label>
+        <select id="category-select" (change)="onCategoryChange($event)" class="glass">
+          <option value="all">Todas las Categorías</option>
+          @for (category of categories(); track category) {
+            <option [value]="category">{{ category }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Sorting Select -->
+      <div class="control-group">
+        <label for="sort-select">Ordenar por</label>
+        <select id="sort-select" (change)="onSortChange($event)" class="glass">
+          <option value="default">Recomendados</option>
+          <option value="priceAsc">Precio: Menor a Mayor</option>
+          <option value="priceDesc">Precio: Mayor a Menor</option>
+          <option value="rating">Mejor Calificados</option>
+        </select>
+      </div>
+
+      <!-- Price Range Slider -->
+      <div class="control-group price-slider-group">
+        <div class="slider-labels">
+          <label for="price-range">Precio Máximo</label>
+          <span class="price-bubble">COP ${{ maxPrice() | number:'1.0-0' }}</span>
+        </div>
+        <div class="slider-row">
+          <span class="range-limit">COP ${{ minProductPrice() | number:'1.0-0' }}</span>
+          <input 
+            id="price-range"
+            type="range" 
+            [min]="minProductPrice()" 
+            [max]="maxProductPrice()" 
+            [value]="maxPrice()"
+            (input)="onPriceChange($event)"
+            class="range-slider"
+          />
+          <span class="range-limit">COP ${{ maxProductPrice() | number:'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <!-- Clear Button -->
+      <button class="clear-btn glow-btn-secondary" (click)="clearFilters()">
+        Limpiar Filtros
+      </button>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section class="results-section">
+    @if (isLoading()) {
+      <app-skeleton type="grid" [count]="8"></app-skeleton>
+    } @else if (errorMessage()) {
+      <div class="error-banner glass">
+        <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <div class="error-content">
+          <h3>No pudimos completar la búsqueda</h3>
+          <p>{{ errorMessage() }}</p>
+          <button class="glow-btn" (click)="loadInitialData()">Reintentar</button>
+        </div>
+      </div>
+    } @else {
+      @if (filteredProducts().length === 0) {
+        <app-empty-state 
+          title="Sin resultados" 
+          message="No encontramos ningún producto que coincida con tus criterios de búsqueda. Intenta usar otros términos o filtros."
+          iconType="search"
+        ></app-empty-state>
+      } @else {
+        <div class="results-count">
+          Se encontraron <strong>{{ filteredProducts().length }}</strong> productos
+        </div>
+        <div class="products-grid">
+          @for (product of filteredProducts(); track product.id) {
+            <app-product-card [product]="product"></app-product-card>
+          }
+        </div>
+      }
+    }
+  </section>
+</main>

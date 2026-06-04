@@ -1,0 +1,257 @@
+.home-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* Hero Section */
+.hero {
+  border-radius: var(--radius-lg);
+  padding: 60px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 60px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  background-color: var(--bg-secondary);
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 2;
+}
+
+.hero-subtitle {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 850;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.hero-desc {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+/* Hero Visual & Glows */
+.hero-visual {
+  position: relative;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glow-circle {
+  position: absolute;
+  border-radius: var(--radius-full);
+  filter: blur(80px);
+  opacity: 0.5;
+  transition: var(--transition);
+}
+
+.primary-glow {
+  width: 250px;
+  height: 250px;
+  background-color: var(--primary);
+  top: 10%;
+  left: 20%;
+}
+
+.secondary-glow {
+  width: 200px;
+  height: 200px;
+  background-color: var(--secondary);
+  bottom: 10%;
+  right: 20%;
+}
+
+/* Floating Badges */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  55% { transform: translateY(-15px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.floating-badge {
+  position: absolute;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-title);
+  font-weight: 700;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+  animation: float 6s ease-in-out infinite;
+}
+
+.badge-1 {
+  top: 20%;
+  left: 20%;
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-glow);
+  animation-delay: 0s;
+}
+
+.badge-2 {
+  bottom: 20%;
+  right: 15%;
+  color: var(--secondary);
+  border-color: var(--secondary);
+  background: var(--secondary-glow);
+  animation-delay: 3s;
+}
+
+/* Categories Section */
+.categories-section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  margin-bottom: 24px;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+.section-header p {
+  color: var(--text-secondary);
+}
+
+.categories-tabs {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: none; /* Hide scrollbar for tabs */
+}
+
+.categories-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.category-tab {
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-family: var(--font-title);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.category-tab:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-glow);
+}
+
+.category-tab.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 14px var(--primary-glow);
+}
+
+/* Products Section */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  width: 100%;
+}
+
+/* Error Banner */
+.error-banner {
+  border-radius: var(--radius-md);
+  padding: 40px;
+  border: 1px solid var(--accent);
+  background: var(--accent-glow);
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.error-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--accent);
+}
+
+.error-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.error-content h3 {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+}
+
+.error-content p {
+  color: var(--text-secondary);
+}
+
+.error-content button {
+  align-self: flex-start;
+  margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 40px;
+  }
+  .hero-visual {
+    height: 150px;
+  }
+  .hero-title {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero {
+    padding: 30px 20px;
+  }
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  .hero-desc {
+    font-size: 1rem;
+  }
+  .hero-visual {
+    display: none;
+  }
+}

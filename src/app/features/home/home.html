@@ -1,0 +1,69 @@
+<main class="home-container fade-in">
+  <!-- Hero Section -->
+  <section class="hero glass">
+    <div class="hero-content">
+      <span class="hero-subtitle">Alpinestars Motorsport Shop</span>
+      <h1 class="hero-title">Siente la Adrenalina en Pista</h1>
+      <p class="hero-desc">Equípate con el mayor estándar en protección y accesorios de motociclismo del mundo. Trajes de cuero, airbags autónomos, botas y guantes diseñados para campeones.</p>
+      <div class="hero-actions">
+        <a routerLink="/search" class="glow-btn">Explorar Catálogo</a>
+        <a routerLink="/search" class="glow-btn-secondary">Novedades 2026</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="glow-circle primary-glow"></div>
+      <div class="glow-circle secondary-glow"></div>
+      <!-- Decorative floating cards -->
+      <div class="floating-badge badge-1 glass">🏍️ MotoGP</div>
+      <div class="floating-badge badge-2 glass">⚡ Tech-Air</div>
+    </div>
+  </section>
+
+  <!-- Categories Tab Bar -->
+  <section class="categories-section">
+    <div class="section-header">
+      <h2>Categorías Destacadas</h2>
+      <p>Filtra nuestros productos según tus intereses</p>
+    </div>
+    <div class="categories-tabs">
+      <button 
+        class="category-tab glass" 
+        [class.active]="selectedCategory() === 'all'"
+        (click)="selectCategory('all')">
+        Todos
+      </button>
+      @for (category of categories(); track category) {
+        <button 
+          class="category-tab glass" 
+          [class.active]="selectedCategory() === category"
+          (click)="selectCategory(category)">
+          {{ category }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products-section">
+    @if (isLoading()) {
+      <app-skeleton type="grid" [count]="8"></app-skeleton>
+    } @else if (errorMessage()) {
+      <div class="error-banner glass">
+        <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <div class="error-content">
+          <h3>¡Ups! Hubo un problema</h3>
+          <p>{{ errorMessage() }}</p>
+          <button class="glow-btn" (click)="loadProducts()">Reintentar</button>
+        </div>
+      </div>
+    } @else {
+      <div class="products-grid">
+        @for (product of products(); track product.id) {
+          <app-product-card [product]="product"></app-product-card>
+        }
+      </div>
+    }
+  </section>
+</main>

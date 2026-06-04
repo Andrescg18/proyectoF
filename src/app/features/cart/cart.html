@@ -1,0 +1,131 @@
+<main class="cart-container fade-in">
+  @if (checkoutSuccess()) {
+    <!-- Success Checkout View -->
+    <div class="success-card glass">
+      <div class="success-icon-wrapper">
+        <svg class="success-icon animate-pop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 4L12 14.01l-3-3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2>¡Compra Realizada con Éxito!</h2>
+      <p class="success-subtitle">Tu orden ha sido procesada y se encuentra en camino.</p>
+      
+      <div class="order-details-box glass">
+        <div class="detail-row">
+          <span>Número de Orden:</span>
+          <strong>{{ orderNumber() }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Método de Pago:</span>
+          <span>Tarjeta de Crédito (Simulado)</span>
+        </div>
+      </div>
+      
+      <button routerLink="/home" class="glow-btn" (click)="resetCheckout()">Seguir Comprando</button>
+    </div>
+  } @else {
+    <h1>Tu Carrito de Compras</h1>
+    
+    @if (cartService.cartItems().length === 0) {
+      <app-empty-state 
+        title="Tu carrito está vacío" 
+        message="Parece que aún no has agregado ningún artículo a tu carrito. ¡Explora nuestra tienda y encuentra las mejores ofertas!"
+        iconType="cart"
+        actionText="Ver Productos"
+        actionRoute="/home"
+      ></app-empty-state>
+    } @else {
+      <div class="cart-layout">
+        <!-- Cart Items List (Left Column) -->
+        <div class="cart-items-panel">
+          <div class="panel-header">
+            <span>Artículo</span>
+            <span class="header-qty">Cantidad</span>
+            <span class="header-total">Total</span>
+          </div>
+
+          <div class="items-list">
+            @for (item of cartService.cartItems(); track item.product.id) {
+              <div class="cart-item glass">
+                <img [src]="item.product.image" [alt]="item.product.title" class="item-img" />
+                
+                <div class="item-details">
+                  <span class="item-cat">{{ item.product.category }}</span>
+                  <a [routerLink]="['/details', item.product.id]" class="item-title">{{ item.product.title }}</a>
+                  <span class="item-price">COP ${{ item.product.price | number:'1.0-0' }} c/u</span>
+                </div>
+
+                <div class="item-qty-control">
+                  <div class="qty-selector">
+                    <button class="qty-btn" (click)="updateQty(item, false)" aria-label="Restar">-</button>
+                    <span class="qty-val">{{ item.quantity }}</span>
+                    <button class="qty-btn" (click)="updateQty(item, true)" aria-label="Sumar">+</button>
+                  </div>
+                </div>
+
+                <div class="item-total-price">
+                  COP ${{ (item.product.price * item.quantity) | number:'1.0-0' }}
+                </div>
+
+                <button class="remove-btn" (click)="removeItem(item.product.id)" aria-label="Eliminar artículo">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2M10 11v6M14 11v6"/>
+                  </svg>
+                </button>
+              </div>
+            }
+          </div>
+
+          <div class="cart-actions">
+            <a routerLink="/home" class="glow-btn-secondary">
+              &larr; Continuar Comprando
+            </a>
+            <button class="clear-cart-btn" (click)="clearCart()">
+              Vaciar Carrito
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary Panel (Right Column) -->
+        <div class="summary-panel glass">
+          <h2>Resumen del Pedido</h2>
+          
+          <div class="summary-details">
+            <div class="summary-row">
+              <span>Subtotal ({{ cartService.totalItems() }} artículos)</span>
+              <span>COP ${{ cartService.totalPrice() | number:'1.0-0' }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Envío</span>
+              <span>COP ${{ shippingCost | number:'1.0-0' }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Impuestos (IVA 19% incluido)</span>
+              <span>COP ${{ (cartService.totalPrice() * 0.19) | number:'1.0-0' }}</span>
+            </div>
+            
+            <hr class="summary-divider" />
+            
+            <div class="summary-row total-row">
+              <span>Total Estimado</span>
+              <span class="total-price">COP ${{ (cartService.totalPrice() + shippingCost) | number:'1.0-0' }}</span>
+            </div>
+          </div>
+
+          <button 
+            class="glow-btn checkout-btn" 
+            (click)="simulateCheckout()" 
+            [disabled]="isCheckingOut()">
+            @if (isCheckingOut()) {
+              <span class="spinner"></span>
+              Procesando Pago...
+            } @else {
+              Proceder al Pago
+            }
+          </button>
+        </div>
+      </div>
+    }
+  }
+</main>

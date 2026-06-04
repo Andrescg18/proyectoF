@@ -1,0 +1,19 @@
+<main class="favorites-container fade-in">
+  <h1>Mis Artículos Favoritos</h1>
+
+  @if (favoriteService.favorites().length === 0) {
+    <app-empty-state
+      title="Aún no tienes favoritos"
+      message="Guarda los artículos que más te gusten haciendo clic en el icono de corazón en cada producto. ¡Así podrás encontrarlos fácilmente más tarde!"
+      iconType="favorites"
+      actionText="Explorar Tienda"
+      actionRoute="/home"
+    ></app-empty-state>
+  } @else {
+    <div class="products-grid">
+      @for (product of favoriteService.favorites(); track product.id) {
+        <app-product-card [product]="product"></app-product-card>
+      }
+    </div>
+  }
+</main>

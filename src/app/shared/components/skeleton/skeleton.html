@@ -1,0 +1,47 @@
+@if (type === 'grid') {
+  <div class="skeleton-grid">
+    @for (item of itemsArray; track $index) {
+      <div class="skeleton-card glass">
+        <div class="skeleton-image shimmer"></div>
+        <div class="skeleton-tag shimmer"></div>
+        <div class="skeleton-title shimmer"></div>
+        <div class="skeleton-text shimmer"></div>
+        <div class="skeleton-footer">
+          <div class="skeleton-price shimmer"></div>
+          <div class="skeleton-btn shimmer"></div>
+        </div>
+      </div>
+    }
+  </div>
+}
+
+@else if (type === 'details') {
+  <div class="skeleton-details">
+    <div class="skeleton-detail-image shimmer"></div>
+    <div class="skeleton-detail-content">
+      <div class="skeleton-tag shimmer"></div>
+      <div class="skeleton-title shimmer" style="height: 40px; margin-bottom: 20px;"></div>
+      <div class="skeleton-title shimmer" style="width: 150px; margin-bottom: 30px;"></div>
+      <div class="skeleton-text shimmer" style="height: 100px; margin-bottom: 30px;"></div>
+      <div class="skeleton-footer">
+        <div class="skeleton-price shimmer" style="width: 120px; height: 35px;"></div>
+        <div class="skeleton-btn shimmer" style="width: 160px; height: 48px; border-radius: var(--radius-md);"></div>
+      </div>
+    </div>
+  </div>
+}
+
+@else if (type === 'list') {
+  <div class="skeleton-list">
+    @for (item of itemsArray; track $index) {
+      <div class="skeleton-list-item glass">
+        <div class="skeleton-list-img shimmer"></div>
+        <div class="skeleton-list-text">
+          <div class="skeleton-title shimmer" style="width: 60%; margin-bottom: 8px;"></div>
+          <div class="skeleton-text shimmer" style="width: 40%;"></div>
+        </div>
+        <div class="skeleton-btn shimmer" style="width: 40px; height: 40px; margin-left: auto;"></div>
+      </div>
+    }
+  </div>
+}

@@ -1,0 +1,100 @@
+<header class="header glass">
+  <div class="header-container">
+    <!-- Logo -->
+    <a routerLink="/" class="logo" (click)="closeMobileMenu()">
+      <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 17L12 22L22 17M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="logo-text">AURA <span class="accent-text">MARKET</span></span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav">
+      <a routerLink="/home" routerLinkActive="active" class="nav-link">Inicio</a>
+      <a routerLink="/search" routerLinkActive="active" class="nav-link">Buscar</a>
+      <a routerLink="/favorites" routerLinkActive="active" class="nav-link nav-icon-link" title="Favoritos">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+        </svg>
+        @if (favoriteService.totalFavorites() > 0) {
+          <span class="badge badge-favorite">{{ favoriteService.totalFavorites() }}</span>
+        }
+      </a>
+      <a routerLink="/cart" routerLinkActive="active" class="nav-link nav-icon-link" title="Carrito">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
+        @if (cartService.totalItems() > 0) {
+          <span class="badge badge-cart">{{ cartService.totalItems() }}</span>
+        }
+      </a>
+      <button class="theme-toggle" (click)="toggleTheme()" aria-label="Cambiar tema">
+        @if (isDarkMode()) {
+          <!-- Sun Icon -->
+          <svg class="icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        } @else {
+          <!-- Moon Icon -->
+          <svg class="icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        }
+      </button>
+    </nav>
+
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-actions">
+      <button class="theme-toggle mobile-theme-toggle" (click)="toggleTheme()" aria-label="Cambiar tema">
+        @if (isDarkMode()) {
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        } @else {
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        }
+      </button>
+      
+      <a routerLink="/cart" class="mobile-cart-link nav-icon-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
+        @if (cartService.totalItems() > 0) {
+          <span class="badge badge-cart">{{ cartService.totalItems() }}</span>
+        }
+      </a>
+
+      <button class="menu-toggle" (click)="toggleMobileMenu()" aria-label="Menu" [class.open]="isMobileMenuOpen()">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" [class.open]="isMobileMenuOpen()">
+    <nav class="mobile-nav">
+      <a routerLink="/home" routerLinkActive="active" class="mobile-link" (click)="closeMobileMenu()">Inicio</a>
+      <a routerLink="/search" routerLinkActive="active" class="mobile-link" (click)="closeMobileMenu()">Buscar Products</a>
+      <a routerLink="/favorites" routerLinkActive="active" class="mobile-link" (click)="closeMobileMenu()">
+        Favoritos
+        @if (favoriteService.totalFavorites() > 0) {
+          <span class="mobile-badge badge-favorite">{{ favoriteService.totalFavorites() }}</span>
+        }
+      </a>
+      <a routerLink="/cart" routerLinkActive="active" class="mobile-link" (click)="closeMobileMenu()">
+        Carrito
+        @if (cartService.totalItems() > 0) {
+          <span class="mobile-badge badge-cart">{{ cartService.totalItems() }}</span>
+        }
+      </a>
+    </nav>
+  </div>
+</header>
+<div class="header-placeholder"></div>

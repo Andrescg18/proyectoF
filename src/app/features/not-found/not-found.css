@@ -1,0 +1,112 @@
+.not-found-container {
+  min-height: calc(100vh - 180px); /* Fill space between header and footer */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 40px 24px;
+}
+
+.glow-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.glow-circle {
+  position: absolute;
+  border-radius: var(--radius-full);
+  filter: blur(100px);
+  opacity: 0.4;
+}
+
+.primary-glow {
+  width: 300px;
+  height: 300px;
+  background-color: var(--primary);
+  top: 25%;
+  left: 20%;
+}
+
+.secondary-glow {
+  width: 250px;
+  height: 250px;
+  background-color: var(--accent);
+  bottom: 25%;
+  right: 20%;
+}
+
+.content {
+  max-width: 600px;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  padding: 50px 40px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  z-index: 2;
+}
+
+.error-code {
+  font-family: var(--font-title);
+  font-size: 8rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px var(--primary-glow));
+}
+
+.error-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+.error-message {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.illustration {
+  margin: 20px 0;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.compass-icon {
+  width: 100px;
+  height: 100px;
+  color: var(--primary);
+  animation: spin-slow 20s linear infinite;
+  filter: drop-shadow(0 0 10px var(--primary-glow));
+}
+
+.content button, .content a {
+  margin-top: 10px;
+  padding: 12px 30px;
+}
+
+@media (max-width: 576px) {
+  .error-code {
+    font-size: 5rem;
+  }
+  .error-title {
+    font-size: 1.8rem;
+  }
+  .content {
+    padding: 30px 20px;
+  }
+}

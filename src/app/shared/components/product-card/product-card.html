@@ -1,0 +1,46 @@
+<div class="product-card glass fade-in" [routerLink]="['/details', product.id]">
+  <!-- Favorite Button -->
+  <button class="fav-btn" (click)="toggleFavorite($event)" [class.active]="isFavorite()" aria-label="Añadir a favoritos">
+    <svg class="heart-icon" viewBox="0 0 24 24" [attr.fill]="isFavorite() ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2">
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+    </svg>
+  </button>
+
+  <!-- Product Image -->
+  <div class="image-container">
+    <img [src]="product.image" [alt]="product.title" class="product-img" loading="lazy" />
+  </div>
+
+  <!-- Product Content -->
+  <div class="product-content">
+    <span class="category-tag">{{ product.category }}</span>
+    <h3 class="product-title" [title]="product.title">{{ product.title }}</h3>
+    
+    <!-- Rating -->
+    <div class="rating-container">
+      <div class="stars">
+        @for (star of [1, 2, 3, 4, 5]; track star) {
+          <svg class="star-icon" [class.filled]="star <= product.rating.rate" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+        }
+      </div>
+      <span class="rating-val">({{ product.rating.rate }})</span>
+    </div>
+
+    <!-- Footer of Card -->
+    <div class="card-footer">
+      <div class="price-container">
+        <span class="currency">COP $</span>
+        <span class="price-val">{{ product.price | number:'1.0-0' }}</span>
+      </div>
+      
+      <button class="add-cart-btn" (click)="addToCart($event)" aria-label="Agregar al carrito">
+        <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
