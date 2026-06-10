@@ -90,7 +90,7 @@ export class SearchComponent implements OnInit {
       error: (err) => console.error('Error fetching categories:', err)
     });
 
-    // Fetch all products for local reactive filtering
+    // Fetch all products for local reactive filtering (catalog has 50 items)
     this.apiService.getProducts(100).subscribe({
       next: (data) => {
         this.allProducts.set(data);
