@@ -21,17 +21,24 @@
         <span class="nav-icon">❤️</span>
         <span class="nav-label">Favoritos</span>
       </a>
-      <a routerLink="/details/1" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">📦</span>
-        <span class="nav-label">Detalle (ID: 1)</span>
+      <a routerLink="/cart" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🛒</span>
+        <span class="nav-label">Carrito</span>
+        <span class="cart-count">{{ cartService.totalItems() }}</span>
+      </a>
+      <a routerLink="/cart" routerLinkActive="active" class="nav-item cart-nav-item">
+        <span class="nav-icon">🛒</span>
+        <span class="nav-label">Carrito</span>
+        @if (cartService.totalItems() > 0) {
+          <span class="cart-badge">{{ cartService.totalItems() }}</span>
+        }
       </a>
     </nav>
     
     <div class="nav-right">
-      <div class="milestone-badge">Día 3 Hito</div>
       <div class="api-status">
         <span class="status-indicator online"></span>
-        <span class="status-text">Core API Online</span>
+        <span class="status-text">API Online</span>
       </div>
       <div class="user-profile">
         <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80" alt="Avatar" class="avatar">
@@ -44,4 +51,3 @@
     <router-outlet></router-outlet>
   </main>
 </div>
-
