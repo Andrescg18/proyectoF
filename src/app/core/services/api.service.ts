@@ -23,20 +23,9 @@ export interface Product {
 export class ApiService {
   private http = inject(HttpClient);
 
-  // Simple product mapping – no brand-specific overrides
+  // Simple product mapping – returns API data with price in COP
   private mapProduct(p: Product): Product {
-    // Directly return the product with price adjusted to local currency
     return { ...p, price: Math.round(p.price * 4000) };
-  }
-
-  private mapCategoryToFakeStore(category: string): string {
-    switch (category) {
-      case 'Protecciones': return 'electronics';
-      case 'Accesorios': return 'jewelery';
-      case 'Ropa': return "men's clothing";
-      case 'Equipamiento': return "women's clothing";
-      default: return category;
-    }
   }
 
   /**
@@ -58,20 +47,17 @@ export class ApiService {
   }
 
   /**
-   * Fetches all categories mapped to Alpinestars categories
+   * Fetches all categories directly from the API
    */
   getCategories(): Observable<string[]> {
-    return this.http.get<string[]>('/products/categories').pipe(
-      map(() => ['Accesorios', 'Ropa', 'Protecciones', 'Equipamiento'])
-    );
+    return this.http.get<string[]>('/products/categories');
   }
 
   /**
    * Fetches products in a specific category
    */
   getProductsByCategory(category: string): Observable<Product[]> {
-    const fakeCat = this.mapCategoryToFakeStore(category);
-    return this.http.get<Product[]>(`/products/category/${encodeURIComponent(fakeCat)}`).pipe(
+    return this.http.get<Product[]>(`/products/category/${encodeURIComponent(category)}`).pipe(
       map(products => products.map(p => this.mapProduct(p)))
     );
   }
@@ -86,8 +72,8 @@ export class ApiService {
           return products;
         }
         const term = query.toLowerCase().trim();
-        return products.filter(p => 
-          p.title.toLowerCase().includes(term) || 
+        return products.filter(p =>
+          p.title.toLowerCase().includes(term) ||
           p.description.toLowerCase().includes(term) ||
           p.category.toLowerCase().includes(term)
         );
